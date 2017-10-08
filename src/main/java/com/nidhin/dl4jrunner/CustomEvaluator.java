@@ -6,7 +6,6 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.*;
@@ -17,7 +16,7 @@ import java.util.*;
 public class CustomEvaluator {
     HashMap<String, ArrayList<String>> aspirationUrlsMap = new HashMap<>();
 //    HashMap<String, WordKmeans.Classes[]> urlClustersMap = new HashMap<>();
-    HashMap<String, HashSet<double[]>> urlTopClustersMap = new HashMap<>();
+    HashMap<String, HashSet<WordKmeans.Classes>> urlTopClustersMap = new HashMap<String, HashSet<WordKmeans.Classes>>();
     MultiLayerNetwork model = null;
 
     public void loadMapsAndModel() throws IOException, ClassNotFoundException {
@@ -28,7 +27,7 @@ public class CustomEvaluator {
         aspirationUrlsMap = (HashMap<String, ArrayList<String>>) ois.readObject();
         ois.close();
         ois = new ObjectInputStream(new FileInputStream("/home/nidhin/Jump2/jump-classifier/urlClustersMap-top10perpage-google.ser"));
-        urlTopClustersMap = (HashMap<String, HashSet<double[]>>) ois.readObject();
+        urlTopClustersMap = (HashMap<String, HashSet<WordKmeans.Classes>>) ois.readObject();
         ois.close();
         ois = new ObjectInputStream(new FileInputStream("/home/nidhin/Jump2/dl4jrunner/mlp-dl4j-google-top10-4-150.ser"));
         model = (MultiLayerNetwork) ois.readObject();
@@ -43,7 +42,7 @@ public class CustomEvaluator {
         aspirationUrlsMap = (HashMap<String, ArrayList<String>>) ois.readObject();
         ois.close();
         ois = new ObjectInputStream(new FileInputStream("/home/ubuntu/url2category/urlClustersMap-top10perpage-google.ser"));
-        urlTopClustersMap = (HashMap<String, HashSet<double[]>>) ois.readObject();
+        urlTopClustersMap = (HashMap<String, HashSet<WordKmeans.Classes>>) ois.readObject();
         ois.close();
 
     }
@@ -169,20 +168,20 @@ public class CustomEvaluator {
 
         ModelEvaluator modelEvaluator = new ModelEvaluator(8);
 
-        for (Map.Entry<String, HashSet<double[]>> urlClusters : urlTopClustersMap.entrySet()){
+        for (Map.Entry<String, HashSet<WordKmeans.Classes>> urlClusters : urlTopClustersMap.entrySet()){
 
             String url = urlClusters.getKey();
-            HashSet<double[]> clusters = urlClusters.getValue();
+            HashSet<WordKmeans.Classes> clusters = urlClusters.getValue();
             Integer correctLabel = urlLabelsMap.get(url);
 
             int correctClusterPred =0, wrongClusterPreds =0;
             int predictions[] = new int[8];
-            for ( double[] cluster : clusters){
-                if (String.valueOf(cluster[0]).equals("NaN")){
+            for ( WordKmeans.Classes cluster : clusters){
+                if (String.valueOf(cluster.getCenter()[0]).equals("NaN")){
                     continue;
                 }
                 tcluster++;
-                INDArray input = Nd4j.create(cluster);
+                INDArray input = Nd4j.create(cluster.getCenter());
                 int pred = model.predict(input)[0];
 
                 predictions[pred]++;
