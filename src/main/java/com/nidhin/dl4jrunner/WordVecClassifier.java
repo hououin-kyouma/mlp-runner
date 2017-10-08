@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
  * Created by nidhin on 27/7/17.
  */
 public class WordVecClassifier {
-    private int batchSize = 128, labelIndex = 0, numClasses = 8;
+    private int batchSize = 256, labelIndex = 0, numClasses = 8;
     private DataSetIterator iterator, evalIterator;
     private double learningRate = 0.05;
     private int nEpochs = 200;
@@ -76,7 +76,7 @@ public class WordVecClassifier {
 //                .gradientNormalizationThreshold(0.9)
 //                .updater(Updater.ADAGRAD)
                 .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
-                .learningRate(0.1)
+                .learningRate(0.01)
 //                .regularization(true).l2(1e-6)
                 .dropOut(0.5)
                 .list()
