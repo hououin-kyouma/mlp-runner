@@ -1,6 +1,6 @@
 package com.nidhin.dl4jrunner;
 
-import com.dexlock.urlclassifier.WordKmeans;
+import com.nidhin.urlclassifier.WordKmeans;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
