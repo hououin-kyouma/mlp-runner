@@ -80,10 +80,10 @@ public class WordVecClassifier {
 //                .regularization(true).l2(1e-6)
                 .dropOut(0.5)
                 .list()
-                .layer(0, new DenseLayer.Builder().nIn(300).nOut(500).build())
-                .layer(1, new DenseLayer.Builder().nIn(500).nOut(700).build())
+                .layer(0, new DenseLayer.Builder().nIn(300).nOut(500).activation(Activation.RELU).build())
+                .layer(1, new DenseLayer.Builder().nIn(500).nOut(700).activation(Activation.RELU).build())
                 .layer(2, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
-                        .activation(Activation.SOFTMAX).nIn(700).nOut(numClasses).learningRate(0.01)
+                        .activation(Activation.SOFTMAX).nIn(700).nOut(numClasses)
                         .build())
                 .backprop(true).pretrain(false)
                 .build();
