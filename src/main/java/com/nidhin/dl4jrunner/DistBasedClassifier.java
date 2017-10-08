@@ -1,6 +1,6 @@
 package com.nidhin.dl4jrunner;
 
-import com.dexlock.urlclassifier.WordKmeans;
+import com.nidhin.urlclassifier.WordKmeans;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
