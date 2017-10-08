@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
  * Created by nidhin on 27/7/17.
  */
 public class WordVecClassifier {
-    private int batchSize = 512, labelIndex = 0, numClasses = 8;
+    private int batchSize = 1024, labelIndex = 0, numClasses = 8;
     private DataSetIterator iterator, evalIterator;
     private double learningRate = 0.05;
     private int nEpochs = 200;
@@ -136,6 +136,17 @@ public class WordVecClassifier {
                 model.fit(ds);
             }
             System.out.println("epoch - " + i + " over.");
+
+            if (i != 0 && i% 5 ==0){
+                Evaluation evaluation = new Evaluation(numClasses);
+                evalIterator.reset();
+                while (evalIterator.hasNext()){
+                    DataSet ds = evalIterator.next();
+                    //ds.normalize();
+                    evaluation.eval(ds.getLabels(), model.output(ds.getFeatures()));
+                }
+                System.out.println(evaluation.stats());
+            }
             if (i != 0 && i%10 == 0){
                 model.setListeners(new ArrayList<>());
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(String.format("mlp-dl4j-google-top10-4-%d.ser", i)));
@@ -144,17 +155,10 @@ public class WordVecClassifier {
                 oos.close();
                 model.setListeners(listeners);
 
-//                Evaluation evaluation = new Evaluation(numClasses);
-//                evalIterator.reset();
-//                while (evalIterator.hasNext()){
-//                    DataSet ds = iterator.next();
-//                    //ds.normalize();
-//                    evaluation.eval(ds.getLabels(), model.output(ds.getFeatures()));
-//                }
-//                System.out.println(evaluation.stats());
-                customEvaluator.loadModel(String.format("mlp-dl4j-google-top10-4-%d.ser", i));
-                System.out.println("Test With All clusters");
-                customEvaluator.testModel();
+
+//                customEvaluator.loadModel(String.format("mlp-dl4j-google-top10-4-%d.ser", i));
+//                System.out.println("Test With All clusters");
+//                customEvaluator.testModel();
                 System.out.println("Test With Top clusters");
                 customEvaluator.testModelWithTopCluster();
             }
