@@ -155,7 +155,7 @@ public class WordVecClassifier {
                 model.setListeners(listeners);
 
 
-//                customEvaluator.loadModel(String.format("mlp-dl4j-google-top10-4-%d.ser", i));
+                customEvaluator.loadModel(String.format("mlp-dl4j-google-top10-4-%d.ser", i));
 //                System.out.println("Test With All clusters");
 //                customEvaluator.testModel();
                 System.out.println("Test With Top clusters");
