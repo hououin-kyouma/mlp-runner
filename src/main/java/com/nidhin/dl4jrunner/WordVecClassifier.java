@@ -75,7 +75,7 @@ public class WordVecClassifier {
 //                .gradientNormalization(GradientNormalization.ClipElementWiseAbsoluteValue)
 //                .gradientNormalizationThreshold(0.9)
 //                .updater(Updater.ADAGRAD)
-                .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
+                .optimizationAlgo(OptimizationAlgorithm.LBFGS)
                 .learningRate(0.1)
                 .regularization(true).l2(1e-6)
 //                .dropOut(0.5)
