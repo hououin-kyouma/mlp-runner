@@ -146,7 +146,7 @@ public class WordVecClassifier {
                 }
                 System.out.println(evaluation.stats());
             }
-            if (i != 0 && i%10 == 0){
+            if ((i != 0 && i%10 == 0)  || i==5){
                 model.setListeners(new ArrayList<>());
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(String.format("mlp-dl4j-google-top10-4-%d.ser", i)));
                 oos.writeObject(model);
