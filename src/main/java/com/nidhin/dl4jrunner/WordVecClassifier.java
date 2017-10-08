@@ -14,6 +14,7 @@ import org.deeplearning4j.earlystopping.termination.MaxTimeIterationTerminationC
 import org.deeplearning4j.earlystopping.trainer.EarlyStoppingTrainer;
 import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.api.Model;
+import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.GradientNormalization;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
@@ -70,12 +71,14 @@ public class WordVecClassifier {
                 .weightInit(WeightInit.UNIFORM)
 //                .activation(Activation.RELU)
 //                .weightInit(WeightInit.XAVIER)
-//                .updater(Updater.NESTEROVS).momentum(0.9)
+                .updater(Updater.NESTEROVS).momentum(0.9)
 //                .gradientNormalization(GradientNormalization.ClipElementWiseAbsoluteValue)
 //                .gradientNormalizationThreshold(0.9)
-                .updater(Updater.ADAGRAD)
-                .learningRate(0.05)
-                .regularization(true).l1(1e-4)
+//                .updater(Updater.ADAGRAD)
+                .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
+                .learningRate(0.1)
+                .regularization(true).l2(1e-6)
+                .dropOut(0.5)
                 .list()
                 .layer(0, new DenseLayer.Builder().nIn(300).nOut(500).build())
                 .layer(1, new DenseLayer.Builder().nIn(500).nOut(700).build())

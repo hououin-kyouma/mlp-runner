@@ -50,6 +50,7 @@ public class CustomEvaluator {
 
     public void loadModel(String modelPath) throws IOException, ClassNotFoundException {
         ObjectInputStream  ois = new ObjectInputStream(new FileInputStream(modelPath));
+        model= null;
         model = (MultiLayerNetwork) ois.readObject();
         ois.close();
     }
