@@ -238,7 +238,7 @@ public class WordVecClassifier {
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
         WordVecClassifier wordVecClassifier = new WordVecClassifier();
         wordVecClassifier.init();
-//        wordVecClassifier.process();
-        wordVecClassifier.earlyStopProcess();
+        wordVecClassifier.process();
+//        wordVecClassifier.earlyStopProcess();
     }
 }
