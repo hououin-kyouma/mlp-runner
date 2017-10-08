@@ -68,12 +68,13 @@ public class WordVecClassifier {
                 .weightInit(WeightInit.XAVIER)
 //                .activation(Activation.RELU)
 //                .weightInit(WeightInit.XAVIER)
-//                .updater(Updater.NESTEROVS).momentum(0.9)
+                .updater(Updater.NESTEROVS).momentum(0.9)
 //                .gradientNormalization(GradientNormalization.ClipElementWiseAbsoluteValue)
 //                .gradientNormalizationThreshold(0.9)
-                .updater(Updater.ADAGRAD)
+//                .updater(Updater.ADAGRAD)
                 .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
-                .learningRate(0.01)
+                .learningRate(0.1)
+                .learningRateDecayPolicy(LearningRatePolicy.Step)
 //                .regularization(true).l2(1e-6)
                 .dropOut(0.5)
                 .list()
@@ -183,62 +184,62 @@ public class WordVecClassifier {
 
     }
 
-    public MultiLayerConfiguration getNNConf(){
-        MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
-                .seed(12345l)
-                .iterations(1)
-                .activation(Activation.LEAKYRELU)
-                .weightInit(WeightInit.XAVIER)
-//                .activation(Activation.RELU)
+//    public MultiLayerConfiguration getNNConf(){
+//        MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
+//                .seed(12345l)
+//                .iterations(1)
+//                .activation(Activation.LEAKYRELU)
 //                .weightInit(WeightInit.XAVIER)
-                .updater(Updater.NESTEROVS).momentum(0.9)
-//                .gradientNormalization(GradientNormalization.ClipElementWiseAbsoluteValue)
-//                .gradientNormalizationThreshold(0.9)
-//                .updater(Updater.ADAGRAD)
-                .learningRate(0.1)
-                .learningRateDecayPolicy(LearningRatePolicy.Exponential)
-                .regularization(true).l2(1e-4)
-                .list()
-                .layer(0, new DenseLayer.Builder().nIn(300).nOut(500).build())
-                .layer(1, new DenseLayer.Builder().nIn(500).nOut(700).build())
-                .layer(2, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
-                        .activation(Activation.SOFTMAX).nIn(700).nOut(numClasses).learningRate(0.01)
-                        .build())
-                .backprop(true).pretrain(false)
-                .build();
-        return conf;
-    }
+////                .activation(Activation.RELU)
+////                .weightInit(WeightInit.XAVIER)
+//                .updater(Updater.NESTEROVS).momentum(0.9)
+////                .gradientNormalization(GradientNormalization.ClipElementWiseAbsoluteValue)
+////                .gradientNormalizationThreshold(0.9)
+////                .updater(Updater.ADAGRAD)
+//                .learningRate(0.1)
+//                .learningRateDecayPolicy(LearningRatePolicy.Exponential)
+//                .regularization(true).l2(1e-4)
+//                .list()
+//                .layer(0, new DenseLayer.Builder().nIn(300).nOut(500).build())
+//                .layer(1, new DenseLayer.Builder().nIn(500).nOut(700).build())
+//                .layer(2, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
+//                        .activation(Activation.SOFTMAX).nIn(700).nOut(numClasses).learningRate(0.01)
+//                        .build())
+//                .backprop(true).pretrain(false)
+//                .build();
+//        return conf;
+//    }
 
-    public void earlyStopProcess(){
-        EarlyStoppingConfiguration esConf = new EarlyStoppingConfiguration.Builder()
-                .epochTerminationConditions(new MaxEpochsTerminationCondition(100))
-                .iterationTerminationConditions(new MaxTimeIterationTerminationCondition(20, TimeUnit.MINUTES))
-                .scoreCalculator(new DataSetLossCalculator(evalIterator, true))
-                .evaluateEveryNEpochs(1)
-                .modelSaver(new LocalFileModelSaver("es_models"))
-                .build();
+//    public void earlyStopProcess(){
+//        EarlyStoppingConfiguration esConf = new EarlyStoppingConfiguration.Builder()
+//                .epochTerminationConditions(new MaxEpochsTerminationCondition(100))
+//                .iterationTerminationConditions(new MaxTimeIterationTerminationCondition(20, TimeUnit.MINUTES))
+//                .scoreCalculator(new DataSetLossCalculator(evalIterator, true))
+//                .evaluateEveryNEpochs(1)
+//                .modelSaver(new LocalFileModelSaver("es_models"))
+//                .build();
 
-        EarlyStoppingTrainer trainer = new EarlyStoppingTrainer(esConf,getNNConf(),iterator);
+//        EarlyStoppingTrainer trainer = new EarlyStoppingTrainer(esConf,getNNConf(),iterator);
 
-//Conduct early stopping training:
-//        UIServer uiServer = UIServer.getInstance();
+////Conduct early stopping training:
+////        UIServer uiServer = UIServer.getInstance();
 
 
-//        StatsStorage statsStorage = new InMemoryStatsStorage();
-//        trainer.setListener(new Ea);
-        EarlyStoppingResult result = trainer.fit();
+////        StatsStorage statsStorage = new InMemoryStatsStorage();
+////        trainer.setListener(new Ea);
+//        EarlyStoppingResult result = trainer.fit();
 
-//Print out the results:
-        System.out.println("Termination reason: " + result.getTerminationReason());
-        System.out.println("Termination details: " + result.getTerminationDetails());
-        System.out.println("Total epochs: " + result.getTotalEpochs());
-        System.out.println("Best epoch number: " + result.getBestModelEpoch());
-        System.out.println("Score at best epoch: " + result.getBestModelScore());
+////Print out the results:
+//        System.out.println("Termination reason: " + result.getTerminationReason());
+//        System.out.println("Termination details: " + result.getTerminationDetails());
+//        System.out.println("Total epochs: " + result.getTotalEpochs());
+//        System.out.println("Best epoch number: " + result.getBestModelEpoch());
+//        System.out.println("Score at best epoch: " + result.getBestModelScore());
 
-//Get the best model:
-        Model bestModel = result.getBestModel();
+////Get the best model:
+//        Model bestModel = result.getBestModel();
 
-    }
+//    }
 
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
         WordVecClassifier wordVecClassifier = new WordVecClassifier();
