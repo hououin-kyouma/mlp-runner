@@ -78,7 +78,7 @@ public class WordVecClassifier {
                 .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
                 .learningRate(0.1)
                 .regularization(true).l2(1e-6)
-                .dropOut(0.5)
+//                .dropOut(0.5)
                 .list()
                 .layer(0, new DenseLayer.Builder().nIn(300).nOut(500).build())
                 .layer(1, new DenseLayer.Builder().nIn(500).nOut(700).build())
