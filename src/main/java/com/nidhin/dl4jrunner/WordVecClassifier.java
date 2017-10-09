@@ -72,7 +72,7 @@ public class WordVecClassifier {
                 .weightInit(WeightInit.XAVIER)
 //                .activation(Activation.RELU)
 //                .weightInit(WeightInit.XAVIER)
-                .updater(Updater.RMSPROP)
+                .updater(Updater.NESTEROVS).momentum(0.8)
 //                .gradientNormalization(GradientNormalization.ClipElementWiseAbsoluteValue)
 //                .gradientNormalizationThreshold(0.9)
 //                .updater(Updater.ADAGRAD)
