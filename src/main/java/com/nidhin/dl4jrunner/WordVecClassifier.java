@@ -123,7 +123,7 @@ public class WordVecClassifier {
         int listenerFrequency = 10;
         ArrayList<IterationListener> listeners = new ArrayList<>();
         listeners.add(new StatsListener(statsStorage, listenerFrequency));
-        listeners.add(new ScoreIterationListener(50));
+//        listeners.add(new ScoreIterationListener(50));
         model.setListeners(listeners);
         //Attach the StatsStorage instance to the UI: this allows the contents of the StatsStorage to be visualized
         uiServer.attach(statsStorage);
