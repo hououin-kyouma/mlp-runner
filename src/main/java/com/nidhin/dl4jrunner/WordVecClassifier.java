@@ -23,6 +23,7 @@ import org.deeplearning4j.nn.weights.WeightInit;
 import org.deeplearning4j.optimize.api.IterationListener;
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
 import org.deeplearning4j.ui.api.UIServer;
+import org.deeplearning4j.ui.play.PlayUIServer;
 import org.deeplearning4j.ui.stats.StatsListener;
 import org.deeplearning4j.ui.storage.InMemoryStatsStorage;
 import org.nd4j.linalg.activations.Activation;
@@ -53,15 +54,15 @@ public class WordVecClassifier {
 
     public void init() throws IOException, InterruptedException {
         RecordReader trainrr = new CSVRecordReader();
-        trainrr.initialize(new FileSplit(new File("/home/ubuntu/url2category/mlp-large-top10-google-train.csv")));
+        trainrr.initialize(new FileSplit(new File("mlp-large-top10-google-train.csv")));
         iterator = new RecordReaderDataSetIterator(trainrr, batchSize, labelIndex, numClasses);
         RecordReader evalrr = new CSVRecordReader();
-        evalrr.initialize(new FileSplit(new File("/home/ubuntu/url2category/mlp-large-top10-google-eval.csv")));
+        evalrr.initialize(new FileSplit(new File("mlp-large-top10-google-eval.csv")));
         evalIterator = new RecordReaderDataSetIterator(evalrr, batchSize, labelIndex, numClasses);
     }
 
     public void process() throws IOException, ClassNotFoundException {
-        System.setProperty("org.deeplearning4j.ui.port", "5000");
+//        System.setProperty("org.deeplearning4j.ui.port", "5000");
 
 
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
@@ -85,7 +86,7 @@ public class WordVecClassifier {
                 .layer(0, new DenseLayer.Builder().nIn(300).nOut(500).build())
                 .layer(1, new DenseLayer.Builder().nIn(500).nOut(700).build())
                 .layer(2, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
-                        .activation(Activation.SOFTMAX).nIn(700).nOut(numClasses).learningRate(0.01)
+                        .activation(Activation.SOFTMAX).nIn(700).nOut(numClasses).learningRate(0.0375)
                         .build())
                 .backprop(true).pretrain(false)
                 .build();
@@ -112,7 +113,9 @@ public class WordVecClassifier {
         MultiLayerNetwork model = new MultiLayerNetwork(conf);
         model.init();
 
-        UIServer uiServer = UIServer.getInstance();
+        PlayUIServer playUIServer = new PlayUIServer();
+        playUIServer.runMain(new String[]{"--uiPort", String.valueOf(9000)});
+        UIServer uiServer = playUIServer;
 
 
         StatsStorage statsStorage = new InMemoryStatsStorage();

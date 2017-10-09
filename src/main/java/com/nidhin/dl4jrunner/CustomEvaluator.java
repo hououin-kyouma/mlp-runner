@@ -41,10 +41,10 @@ public class CustomEvaluator {
         ObjectInputStream /*ois = new ObjectInputStream(new FileInputStream("/home/ubuntu/url2category/urlClustersMap-google.ser"));
         urlClustersMap = (HashMap<String, WordKmeans.Classes[]>) ois.readObject();
         ois.close();*/
-        ois = new ObjectInputStream(new FileInputStream("/home/ubuntu/url2category/aspirationUrlsMap.ser"));
+        ois = new ObjectInputStream(new FileInputStream("aspirationUrlsMap.ser"));
         aspirationUrlsMap = (HashMap<String, ArrayList<String>>) ois.readObject();
         ois.close();
-        ois = new ObjectInputStream(new FileInputStream("/home/ubuntu/url2category/urlClustersMap-top10perpage-google.ser"));
+        ois = new ObjectInputStream(new FileInputStream("urlClustersMap-top10perpage-google.ser"));
         urlTopClustersMap = (HashMap<String, HashSet<WordKmeans.Classes>>) ois.readObject();
         ois.close();
 
