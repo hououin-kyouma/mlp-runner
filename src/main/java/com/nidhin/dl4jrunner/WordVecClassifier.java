@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
  * Created by nidhin on 27/7/17.
  */
 public class WordVecClassifier {
-    private int batchSize = 1024, labelIndex = 0, numClasses = 8;
+    private int batchSize = 512, labelIndex = 0, numClasses = 8;
     private DataSetIterator iterator, evalIterator;
     private double learningRate = 0.05;
     private int nEpochs = 400;
