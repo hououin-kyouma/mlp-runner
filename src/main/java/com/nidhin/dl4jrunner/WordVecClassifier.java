@@ -61,7 +61,7 @@ public class WordVecClassifier {
         evalIterator = new RecordReaderDataSetIterator(evalrr, batchSize, labelIndex, numClasses);
     }
 
-    public void process() throws IOException, ClassNotFoundException {
+    public void process( int port) throws IOException, ClassNotFoundException {
 //        System.setProperty("org.deeplearning4j.ui.port", "5000");
 
 
@@ -114,7 +114,7 @@ public class WordVecClassifier {
         model.init();
 
         PlayUIServer playUIServer = new PlayUIServer();
-        playUIServer.runMain(new String[]{"--uiPort", String.valueOf(9000)});
+        playUIServer.runMain(new String[]{"--uiPort", String.valueOf(port)});
         UIServer uiServer = playUIServer;
 
 
@@ -251,7 +251,7 @@ public class WordVecClassifier {
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
         WordVecClassifier wordVecClassifier = new WordVecClassifier();
         wordVecClassifier.init();
-        wordVecClassifier.process();
+        wordVecClassifier.process(Integer.parseInt(args[0]));
 //        wordVecClassifier.earlyStopProcess();
     }
 }
