@@ -4,6 +4,8 @@ import com.nidhin.urlclassifier.WordKmeans;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,6 +20,7 @@ public class CustomEvaluator {
 //    HashMap<String, WordKmeans.Classes[]> urlClustersMap = new HashMap<>();
     HashMap<String, HashSet<WordKmeans.Classes>> urlTopClustersMap = new HashMap<String, HashSet<WordKmeans.Classes>>();
     MultiLayerNetwork model = null;
+    static Logger logger = LoggerFactory.getLogger(CustomEvaluator.class);
 
     public void loadMapsAndModel() throws IOException, ClassNotFoundException {
         ObjectInputStream /*ois = new ObjectInputStream(new FileInputStream("/home/nidhin/Jump2/jump-classifier/urlClustersMap-google.ser"));
@@ -112,22 +115,22 @@ public class CustomEvaluator {
 //            }
 //            modelEvaluator.addRecord(finalPreLabel, correctLabel);
 
-////            System.out.println(String.format("%s --- %d  : %d", url, correctLabel, finalPreLabel));
+////            logger.info(String.format("%s --- %d  : %d", url, correctLabel, finalPreLabel));
 //        }
-//        System.out.println("Tcluster - " + tcluster);
-//        System.out.println(tcorrectClusterPred + "  :  " + twrongClusterPreds);
+//        logger.info("Tcluster - " + tcluster);
+//        logger.info(tcorrectClusterPred + "  :  " + twrongClusterPreds);
 
-//        System.out.println("Accuracy - " + (tcorrectClusterPred *1.0)/((tcorrectClusterPred + twrongClusterPreds) * 1.0));
+//        logger.info("Accuracy - " + (tcorrectClusterPred *1.0)/((tcorrectClusterPred + twrongClusterPreds) * 1.0));
 //        System.out.print("C - ");
 //        for (int x = 0; x< correctasp.length; x++){
 //            System.out.print(x+":" +correctasp[x] + ", ");
 //        }
-//        System.out.println();
+//        logger.info();
 //        System.out.print("W - ");
 //        for (int x = 0; x< wrongasp.length; x++){
 //            System.out.print(x+":"+wrongasp[x] + ", ");
 //        }
-//        System.out.println();
+//        logger.info();
 //        System.out.print("T - ");
 //        int t=0;
 //        for (int x = 0; x< wrongasp.length; x++){
@@ -135,13 +138,13 @@ public class CustomEvaluator {
 //            t+= it;
 //            System.out.print(x+":"+ it + ", ");
 //        }
-//        System.out.println();
-//        System.out.println("t - " + t);
+//        logger.info();
+//        logger.info("t - " + t);
 
 //        modelEvaluator.calcMetrics();
 //        for (int i=0 ; i < 8; i++){
 
-//            System.out.println(modelEvaluator.getClassScores(i));
+//            logger.info(modelEvaluator.getClassScores(i));
 //        }
 
 //    }
@@ -205,21 +208,21 @@ public class CustomEvaluator {
             }
             modelEvaluator.addRecord(finalPreLabel, correctLabel);
 
-//            System.out.println(String.format("%s --- %d  : %d", url, correctLabel, finalPreLabel));
+//            logger.info(String.format("%s --- %d  : %d", url, correctLabel, finalPreLabel));
         }
-        System.out.println("tcluster - "+ tcluster);
-        System.out.println(tcorrectClusterPred + "  :  " + twrongClusterPreds);
-        System.out.println("Accuracy - " + (tcorrectClusterPred *1.0)/((tcorrectClusterPred + twrongClusterPreds) * 1.0));
+        logger.info("tcluster - "+ tcluster);
+        logger.info(tcorrectClusterPred + "  :  " + twrongClusterPreds);
+        logger.info("Accuracy - " + (tcorrectClusterPred *1.0)/((tcorrectClusterPred + twrongClusterPreds) * 1.0));
         System.out.print("C - ");
         for (int x = 0; x< correctasp.length; x++){
             System.out.print(x+":" +correctasp[x] + ", ");
         }
-        System.out.println();
+        logger.info("\n");
         System.out.print("W - ");
         for (int x = 0; x< wrongasp.length; x++){
             System.out.print(x+":"+wrongasp[x] + ", ");
         }
-        System.out.println();
+        logger.info("\n");
         System.out.print("T - ");
         int t =0;
         for (int x = 0; x< wrongasp.length; x++){
@@ -227,13 +230,13 @@ public class CustomEvaluator {
             t+= it;
             System.out.print(x+":"+ it + ", ");
         }
-        System.out.println();
-        System.out.println("t - " + t);
+        logger.info("\n");
+        logger.info("t - " + t);
 
         modelEvaluator.calcMetrics();
         for (int i=0 ; i < 8; i++){
 
-            System.out.println(modelEvaluator.getClassScores(i));
+            logger.info(modelEvaluator.getClassScores(i));
         }
     }
 
@@ -252,9 +255,9 @@ public class CustomEvaluator {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         CustomEvaluator customEvaluator = new CustomEvaluator();
         customEvaluator.loadMapsAndModel();
-//        System.out.println("Test With All clusters");
+//        logger.info("Test With All clusters");
 //        customEvaluator.testModel();
-        System.out.println("Test With Top clusters");
+        logger.info("Test With Top clusters");
         customEvaluator.testModelWithTopCluster();
 
     }

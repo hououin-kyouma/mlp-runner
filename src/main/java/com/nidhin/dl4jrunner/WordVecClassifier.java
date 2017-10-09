@@ -29,6 +29,8 @@ import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.dataset.api.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ public class WordVecClassifier {
     private DataSetIterator iterator, evalIterator;
     private double learningRate = 0.05;
     private int nEpochs = 400;
+    static Logger logger = LoggerFactory.getLogger(WordVecClassifier.class);
 
     public WordVecClassifier() {
 
@@ -134,7 +137,7 @@ public class WordVecClassifier {
                 //ds.normalize();
                 model.fit(ds);
             }
-            System.out.println("epoch - " + i + " over.");
+            logger.info("epoch - " + i + " over.");
 
             if (i != 0 && i% 5 ==0){
                 Evaluation evaluation = new Evaluation(numClasses);
@@ -144,7 +147,7 @@ public class WordVecClassifier {
                     //ds.normalize();
                     evaluation.eval(ds.getLabels(), model.output(ds.getFeatures()));
                 }
-                System.out.println(evaluation.stats());
+                logger.info(evaluation.stats());
             }
             if ((i != 0 && i%10 == 0)  || i==5){
                 model.setListeners(new ArrayList<>());
@@ -156,9 +159,9 @@ public class WordVecClassifier {
 
 
                 customEvaluator.loadModel(String.format("mlp-dl4j-google-top10-4-%d.ser", i));
-//                System.out.println("Test With All clusters");
+//                logger.info("Test With All clusters");
 //                customEvaluator.testModel();
-                System.out.println("Test With Top clusters");
+                logger.info("Test With Top clusters");
                 customEvaluator.testModelWithTopCluster();
             }
         }
@@ -172,7 +175,7 @@ public class WordVecClassifier {
             //ds.normalize();
             eval.eval(ds.getLabels(), model.output(ds.getFeatures()));
         }
-        System.out.println(eval.stats());
+        logger.info(eval.stats());
         model.setListeners(new ArrayList<>());
 
 
@@ -180,7 +183,7 @@ public class WordVecClassifier {
         oos.writeObject(model);
         oos.flush();
         oos.close();
-        System.out.println("model saved");
+        logger.info("model saved");
 
 
     }
@@ -231,11 +234,11 @@ public class WordVecClassifier {
 //        EarlyStoppingResult result = trainer.fit();
 
 ////Print out the results:
-//        System.out.println("Termination reason: " + result.getTerminationReason());
-//        System.out.println("Termination details: " + result.getTerminationDetails());
-//        System.out.println("Total epochs: " + result.getTotalEpochs());
-//        System.out.println("Best epoch number: " + result.getBestModelEpoch());
-//        System.out.println("Score at best epoch: " + result.getBestModelScore());
+//        logger.info("Termination reason: " + result.getTerminationReason());
+//        logger.info("Termination details: " + result.getTerminationDetails());
+//        logger.info("Total epochs: " + result.getTotalEpochs());
+//        logger.info("Best epoch number: " + result.getBestModelEpoch());
+//        logger.info("Score at best epoch: " + result.getBestModelScore());
 
 ////Get the best model:
 //        Model bestModel = result.getBestModel();
