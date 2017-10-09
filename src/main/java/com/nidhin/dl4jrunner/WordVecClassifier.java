@@ -151,7 +151,9 @@ public class WordVecClassifier {
                     //ds.normalize();
                     evaluation.eval(ds.getLabels(), model.output(ds.getFeatures()));
                 }
-                logger.info(evaluation.stats());
+
+                logger.info("Acc - " + evaluation.accuracy() + " F1 - " + evaluation.f1() +
+                " Pre - " + evaluation.precision() + " Rec - " + evaluation.recall());
             }
             if ((i != 0 && i%10 == 0)  || i==5){
                 model.setListeners(new ArrayList<>());
