@@ -68,7 +68,7 @@ public class WordVecClassifier {
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
                 .seed(12345l)
                 .iterations(1)
-                .activation(Activation.SIGMOID)
+                .activation(Activation.RELU)
                 .weightInit(WeightInit.XAVIER)
 //                .activation(Activation.RELU)
 //                .weightInit(WeightInit.XAVIER)
