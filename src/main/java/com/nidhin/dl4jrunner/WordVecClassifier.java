@@ -76,7 +76,7 @@ public class WordVecClassifier {
                 .learningRate(0.075)
 //                .learningRateDecayPolicy(LearningRatePolicy.Sigmoid)
                 .regularization(true)
-                .l2(1e-3)
+                .l2(1e-6)
 //                .dropOut(0.5)
                 .list()
                 .layer(0, new DenseLayer.Builder().nIn(300).nOut(500).build())
