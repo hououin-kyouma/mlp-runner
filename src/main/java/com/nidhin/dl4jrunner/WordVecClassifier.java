@@ -87,7 +87,7 @@ public class WordVecClassifier {
                 .layer(0, new DenseLayer.Builder().nIn(300).nOut(500).build())
                 .layer(1, new DenseLayer.Builder().nIn(500).nOut(700).build())
                 .layer(2, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
-                        .activation(Activation.SOFTMAX).nIn(700).nOut(numClasses).learningRate(0.0375)
+                        .activation(Activation.SOFTMAX).nIn(700).nOut(numClasses).learningRate(0.1)
                         .build())
                 .backprop(true).pretrain(false)
                 .build();
